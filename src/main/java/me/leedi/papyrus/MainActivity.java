@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         
         // 메인화면인 Papyrus 목록을 띄운다.
-        fragment = new PapyrusFragment();
+        fragment = new PapyrusFragment(this);
         fragmentManager.beginTransaction()
                 .replace(R.id.content, fragment)
                 .commit();
@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity {
     private void selectItem(int position) {
         // 선택된 item 에 따라 Fragment 를 가져온다.
         if (position == 0) {
-            fragment = new PapyrusFragment();
+            fragment = new PapyrusFragment(MainActivity.this);
         }
         // 가져온 Fragment 를 Content (FrameLayout)영역에 띄운다.
         fragmentManager.beginTransaction()
