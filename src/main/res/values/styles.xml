@@ -1,0 +1,18 @@
+<resources>
+    <!-- 애플리케이션 기본테마 -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 커스터마이징! -->
+        <item name="colorPrimary">#9C27B0</item>
+        <item name="colorPrimaryDark">#7B1FA2</item>
+        <item name="colorAccent">#FF5252</item>
+        <item name="android:textColorPrimary">#212121</item>
+        <item name="android:textColorSecondary">#727272</item>
+    </style>
+
+    <!-- Toolbar 커스터마이징 -->
+    <style name="ToolbarTheme" parent="Theme.AppCompat">
+        <item name="colorPrimary">#9C27B0</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="actionMenuTextColor">#FFFFFF</item>
+    </style>
+</resources>

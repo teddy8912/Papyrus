@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Papyrus</string>
+    
+    <!-- Arrays -->
+    <string-array name="listname">
+        <item>파피루스</item>
+    </string-array>
+
+    <!-- Commons -->
+    <string name="drawer_open">메뉴 목록이 열렸습니다</string>
+    <string name="drawer_close">메뉴 목록이 닫혔습니다</string>
+</resources>
