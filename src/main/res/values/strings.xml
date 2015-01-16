@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Papyrus</string>
-    
+    <string name="facebook_app_id">760977487325844</string>
+
     <!-- Arrays -->
     <string-array name="listname">
         <item>파피루스</item>
@@ -10,4 +12,9 @@
     <!-- Commons -->
     <string name="drawer_open">메뉴 목록이 열렸습니다</string>
     <string name="drawer_close">메뉴 목록이 닫혔습니다</string>
+    
+    <!-- Alerts -->
+    <string name="alert_timeout">Papyrus가 과열되었습니다.\n잠시 후 다시 시도하세요</string>
+    <string name="alert_forbidden">Papyrus API : 접근 권한이 없습니다.</string>
+
 </resources>

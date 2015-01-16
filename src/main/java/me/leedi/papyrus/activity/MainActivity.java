@@ -1,7 +1,9 @@
-package me.leedi.papyrus;
+package me.leedi.papyrus.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import me.leedi.papyrus.R;
 import me.leedi.papyrus.fragment.PapyrusFragment;
 
 
@@ -27,6 +30,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences pref = getSharedPreferences("common", MODE_PRIVATE);
+        boolean isLogin = pref.getBoolean("isLogin", false);
+        
+        if (!isLogin) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
 
         String[] mListName = getResources().getStringArray(R.array.listname);
 

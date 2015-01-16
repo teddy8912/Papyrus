@@ -18,7 +18,7 @@ import java.util.List;
 
 public class PapyrusFragment extends Fragment {
     RecyclerView mRecyclerView; // RecyclerView 초기화
-    Context mContext; // Context 초기회
+    Context mContext; // Context 초기화
     public PapyrusFragment(Context context) {
         mContext = context;
     }
@@ -41,7 +41,7 @@ public class PapyrusFragment extends Fragment {
     }
     
     private List<Papyrus> getPapyrus() {
-        List<Papyrus> items = new ArrayList<Papyrus>();
+        List<Papyrus> items = new ArrayList<>();
         return items;
     }
 }
