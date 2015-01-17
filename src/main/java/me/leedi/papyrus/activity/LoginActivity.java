@@ -23,8 +23,6 @@ public class LoginActivity extends ActionBarActivity {
     TwitterLoginButton twitterLogin;
     LoginButton facebookLogin;
     String userId, userName, SNSType;
-    
-    // TODO : ServerUtils 를 이용한 로그인을 AsyncTask 로 처리하도록 수정!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
