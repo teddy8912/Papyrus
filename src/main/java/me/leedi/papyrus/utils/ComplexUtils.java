@@ -36,10 +36,10 @@ public class ComplexUtils {
 
     public static JSONObject JSONParse(String json) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
-        JSONObject data = jsonObject.getJSONObject("data");
         JSONObject status = jsonObject.getJSONObject("status");
         String code = status.getString("code");
         String msg = status.getString("message");
+        JSONObject data = jsonObject.getJSONObject("data");
         
         statuscode = code;
 

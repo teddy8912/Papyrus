@@ -2,6 +2,7 @@ package me.leedi.papyrus.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import me.leedi.papyrus.R;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -42,6 +43,7 @@ public class ServerUtils {
         params.add(new BasicNameValuePair("userId", userId));
         params.add(new BasicNameValuePair("userName", userName));
         String res = doPost("/user/login", params, null, context);
+        Log.d("JSON", res);
         if (!isTimeout(res, context)) {
             try {
                 JSONObject json = JSONParse(res);
@@ -176,6 +178,8 @@ public class ServerUtils {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 res = EntityUtils.toString(entity, "UTF-8");
+                res = res.replace("\\", "");
+                res = res.substring(1, res.length() -1);
             }
             return res;
         } catch (ConnectTimeoutException e) {
@@ -218,6 +222,8 @@ public class ServerUtils {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 res = EntityUtils.toString(entity, "UTF-8");
+                res = res.replace("\\", "");
+                res = res.substring(1, res.length() -1);
             }
             return res;
         } catch (ConnectTimeoutException e) {
@@ -257,6 +263,8 @@ public class ServerUtils {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 res = EntityUtils.toString(entity, "UTF-8");
+                res = res.replace("\\", "");
+                res = res.substring(1, res.length() -1);
             }
             return res;
         } catch (ConnectTimeoutException e) {

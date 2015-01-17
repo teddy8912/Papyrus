@@ -2,9 +2,11 @@ package me.leedi.papyrus.activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.ProgressBar;
 import com.facebook.*;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
@@ -40,18 +42,12 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public void success(Result<TwitterSession> result) {
                 TwitterSession session = result.data;
-                userId = "TWTR" + Long.toString(session.getUserId());
+                userId = "TWTR_" + Long.toString(session.getUserId());
                 userName = session.getUserName();
-                boolean login = ServerUtils.login(userId, userName, LoginActivity.this);
-                if (!login) {
-                    new AlertDialog.Builder(LoginActivity.this)
-                            .setMessage(ServerUtils.StatusMsg)
-                            .setPositiveButton(android.R.string.ok, null)
-                            .create();
-                }
-                else {
-                    finish();
-                }
+                String[] userInfo = new String[2];
+                userInfo[0] = userId;
+                userInfo[1] = userName;
+                new loginTask().execute(userInfo);
             }
 
             @Override
@@ -83,18 +79,12 @@ public class LoginActivity extends ActionBarActivity {
                         @Override
                         public void onCompleted(GraphUser user, Response response) {
                             if (user != null) {
-                                String userId = "FB" + user.getId();
+                                String userId = "FB_" + user.getId();
                                 String userName = user.getName();
-                                boolean login = ServerUtils.login(userId, userName, LoginActivity.this);
-                                if (!login) {
-                                    new AlertDialog.Builder(LoginActivity.this)
-                                            .setMessage(ServerUtils.StatusMsg)
-                                            .setPositiveButton(android.R.string.ok, null)
-                                            .create();
-                                }
-                                else {
-                                    finish();
-                                }
+                                String[] userInfo = new String[2];
+                                userInfo[0] = userId;
+                                userInfo[1] = userName;
+                                new loginTask().execute(userInfo);
                             }
                         }
                     }).executeAsync();
@@ -111,6 +101,33 @@ public class LoginActivity extends ActionBarActivity {
         }
         else if (SNSType.equals("FB")) {
             Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+        }
+    }
+    
+    public class loginTask extends AsyncTask<String, Void, Boolean> {
+        ProgressBar progressCircle = (ProgressBar) findViewById(R.id.progress_circle);
+        @Override
+        protected void onPreExecute() {
+            progressCircle.setVisibility(View.VISIBLE);
+        }
+        
+        @Override
+        protected Boolean doInBackground(String... params) {
+            return ServerUtils.login(params[0], params[1], LoginActivity.this);
+        }
+        
+        @Override
+        protected void onPostExecute(Boolean login) {
+            if (!login) {
+                new AlertDialog.Builder(LoginActivity.this)
+                        .setMessage(ServerUtils.StatusMsg)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .create();
+            }
+            else {
+                progressCircle.setVisibility(View.INVISIBLE);
+                finish();
+            }            
         }
     }
 }
