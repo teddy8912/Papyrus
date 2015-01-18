@@ -2,7 +2,6 @@ package me.leedi.papyrus.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import me.leedi.papyrus.R;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,6 +19,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,20 +30,19 @@ import static me.leedi.papyrus.utils.ComplexUtils.*;
 
 public class ServerUtils {
     public static String StatusMsg;
-    /**
+        /**
      * Papyrus 로그인 메소드
-     * 
+     *
      * @param userId (소셜 네트워크 ID)
      * @param userName (소셜 네트워크 계정이름)
      * @param context (Context)
      */
-    
+
     public static boolean login(String userId, String userName, Context context) {
         ArrayList<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("userId", userId));
         params.add(new BasicNameValuePair("userName", userName));
         String res = doPost("/user/login", params, null, context);
-        Log.d("JSON", res);
         if (!isTimeout(res, context)) {
             try {
                 JSONObject json = JSONParse(res);
@@ -59,7 +58,7 @@ public class ServerUtils {
         }
         return false;
     }
-
+    
     /**
      * Papyrus 프로필(유저이름만) 업데이트 메소드
      *
@@ -118,6 +117,29 @@ public class ServerUtils {
         }
         return false;
     }
+
+    /**
+     * Papyrus 목록 가져오는 메소드
+     *
+     * @param userId (소셜 네트워크 ID)
+     * @param startOffset (시작점!?)
+     * @param context (Context)
+     */
+
+    public static JSONArray papyrusGet(String userId, String startOffset, Context context) {
+        String res = doGet("/papyrus/" + userId + "?start=" + startOffset, null, context);
+        if (!isTimeout(res, context)) {
+            try {
+                JSONObject jsonObject = new JSONObject(res);
+                return jsonObject.getJSONArray("data");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
+
 
     /**
      * API 타임아웃 여부 체크 메소드

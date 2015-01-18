@@ -4,7 +4,7 @@
         <!-- 커스터마이징! -->
         <item name="colorPrimary">#9C27B0</item>
         <item name="colorPrimaryDark">#7B1FA2</item>
-        <item name="colorAccent">#FF5252</item>
+        <item name="colorAccent">@color/accent</item>
         <item name="android:textColorPrimary">#212121</item>
         <item name="android:textColorSecondary">#727272</item>
     </style>
