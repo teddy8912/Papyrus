@@ -2,7 +2,7 @@ package me.leedi.papyrus.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,12 +17,14 @@ import me.leedi.papyrus.utils.ServerUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PapyrusFragment extends Fragment {
     int start = 0;
-    RecyclerView mRecyclerView; // RecyclerView 초기화
     Context mContext; // Context 초기화
     public PapyrusFragment(Context context) {
         mContext = context;
@@ -33,41 +35,63 @@ public class PapyrusFragment extends Fragment {
                              Bundle savedInstanceState) {
         // 레이아웃 초기화
         View view = inflater.inflate(R.layout.fragment_papyrus, container, false);
-        init(view, mContext);
+        String userId = mContext.getSharedPreferences("common", Context.MODE_PRIVATE).getString("userId", null);
+        loadTask task = new loadTask(view, mContext);
+        task.execute(userId);
         return view;
     }
 
-    private void init(View v, Context context){
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.list);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(new PapyrusAdapter(context, getPapyrus() , R.layout.papyrus_list_item));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-    }
-    
-    private List<Papyrus> getPapyrus() {
-        final List<Papyrus> items = new ArrayList<>();
-        final SharedPreferences pref = getActivity().getSharedPreferences("common", Context.MODE_PRIVATE);
-        // TODO : Thread 생성 (동기 방식) 에서 AsyncTask (비동기 방식) 으로 교체를 하자!
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                JSONArray json = ServerUtils.papyrusGet(pref.getString("userId", null), Integer.toString(start) , getActivity());
-                for (int i=0; i<json.length(); i++) {
-                    Papyrus papyrus = new Papyrus();
-                    try {
-                        // TODO : Description 은 substring 으로 20자 이내로만 나오게 설계해야하며, 
-                        // TODO : Date 는 UNIX 시간이기에 Java 에서 계산된 시계 방식으로 표기하도록 설계해야한다.
-                        papyrus.setTitle(json.getJSONObject(i).getString("title"));
-                        papyrus.setDescription(json.getJSONObject(i).getString("content"));
-                        papyrus.setDate(json.getJSONObject(i).getString("date"));
-                        items.add(papyrus);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+    public class loadTask extends AsyncTask<String, Void, List<Papyrus>> {
+        Context context;
+        View v;
+        RecyclerView mRecyclerView;
+        
+        public loadTask(View v, Context context) {
+            this.v = v;
+            this.context = context;            
+        }
+        
+        @Override
+        protected void onPreExecute() {
+            mRecyclerView = (RecyclerView) v.findViewById(R.id.list);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        }
+        
+        @Override
+        protected List<Papyrus> doInBackground(String... userId) {
+            List<Papyrus> items = new ArrayList<>();
+            JSONArray json = ServerUtils.papyrusGet(userId[0], Integer.toString(start) , context);
+            for (int i=0; i<json.length(); i++) {
+                Papyrus papyrus = new Papyrus();
+                try {
+                    // TODO : 방금, 몇 분전, 몇 시간전, 몇 일전, 일자 이런식으로 표현되도록 설계해야 한다!
+                    papyrus.setTitle(json.getJSONObject(i).getString("title"));
+                    String description = json.getJSONObject(i).getString("content");
+                    int end = description.length();
+                    if (end < 20) {
+                        description = json.getJSONObject(i).getString("content").substring(0, end);
                     }
+                    else {
+                        description = json.getJSONObject(i).getString("content").substring(0, 20);
+                    }
+                    long unixTime = Long.parseLong(json.getJSONObject(i).getString("date"));
+                    Date date = new Date(unixTime * 1000);
+                    SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREAN);
+                    papyrus.setDescription(description);
+                    papyrus.setDate(DateFormat.format(date));
+                    items.add(papyrus);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        }).start();
-        return items;
+            return items;
+        }
+
+        @Override
+        protected void onPostExecute(List<Papyrus> items) {
+            mRecyclerView.setAdapter(new PapyrusAdapter(context, items , R.layout.papyrus_list_item));
+        }
     }
 }
