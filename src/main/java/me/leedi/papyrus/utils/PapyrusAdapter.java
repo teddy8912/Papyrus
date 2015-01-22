@@ -1,57 +1,45 @@
 package me.leedi.papyrus.utils;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import me.leedi.papyrus.R;
 
 import java.util.List;
 
-public class PapyrusAdapter extends RecyclerView.Adapter<PapyrusAdapter.ViewHolder> {
+public class PapyrusAdapter extends ArrayAdapter<Papyrus> {
+    TextView title, description, date;
     Context context;
-    private List<Papyrus> items;
-    private int itemLayout;
+    int layout;
+    List<Papyrus> items;
 
-    public PapyrusAdapter(Context context, List<Papyrus> items, int itemLayout) {
+    public PapyrusAdapter(Context context, int layout, List<Papyrus> items) {
+        super(context, layout, items);
         this.context = context;
         this.items = items;
-        this.itemLayout = itemLayout;
+        this.layout = layout;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(itemLayout, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Papyrus item = items.get(position);
-        holder.title.setText(item.getTitle());
-        holder.date.setText(item.getDate());
-        holder.description.setText(item.getDescription());
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
-        public TextView date;
-        public TextView description;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            title = (TextView) itemView.findViewById(R.id.papyrus_item_title);
-            date = (TextView) itemView.findViewById(R.id.papyrus_item_date);
-            description = (TextView) itemView.findViewById(R.id.papyrus_item_description);
+    public View getView(final int position, View view, ViewGroup parent) {
+        //View 객체 연결
+        if(view == null){
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(layout, null);
         }
-    }
 
-
-    @Override
-    public int getItemCount() {
-        // TODO Auto-generated method stub
-        return items.size();
+        title = (TextView) view.findViewById(R.id.papyrus_item_title);
+        description = (TextView) view.findViewById(R.id.papyrus_item_description);
+        date = (TextView) view.findViewById(R.id.papyrus_item_date);
+        
+        Papyrus papyrus = getItem(position);
+        
+        title.setText(papyrus.getTitle());
+        description.setText(papyrus.getDescription());
+        date.setText(papyrus.getDate());
+        return view;
     }
 }

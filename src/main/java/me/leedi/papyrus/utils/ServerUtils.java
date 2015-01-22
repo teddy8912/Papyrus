@@ -30,7 +30,7 @@ import static me.leedi.papyrus.utils.ComplexUtils.*;
 
 public class ServerUtils {
     public static String StatusMsg;
-        /**
+    /**
      * Papyrus 로그인 메소드
      *
      * @param userId (소셜 네트워크 ID)

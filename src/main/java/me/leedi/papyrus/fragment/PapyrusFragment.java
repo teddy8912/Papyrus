@@ -4,12 +4,10 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import me.leedi.papyrus.R;
 import me.leedi.papyrus.utils.Papyrus;
 import me.leedi.papyrus.utils.PapyrusAdapter;
@@ -44,7 +42,7 @@ public class PapyrusFragment extends Fragment {
     public class loadTask extends AsyncTask<String, Void, List<Papyrus>> {
         Context context;
         View v;
-        RecyclerView mRecyclerView;
+        ListView mListView;
         
         public loadTask(View v, Context context) {
             this.v = v;
@@ -53,10 +51,7 @@ public class PapyrusFragment extends Fragment {
         
         @Override
         protected void onPreExecute() {
-            mRecyclerView = (RecyclerView) v.findViewById(R.id.list);
-            mRecyclerView.setHasFixedSize(true);
-            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            mListView = (ListView) v.findViewById(R.id.list);
         }
         
         @Override
@@ -91,7 +86,7 @@ public class PapyrusFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Papyrus> items) {
-            mRecyclerView.setAdapter(new PapyrusAdapter(context, items , R.layout.papyrus_list_item));
+            mListView.setAdapter(new PapyrusAdapter(context, R.layout.papyrus_list_item, items));
         }
     }
 }

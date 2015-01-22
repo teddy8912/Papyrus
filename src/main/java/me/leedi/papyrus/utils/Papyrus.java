@@ -1,21 +1,12 @@
 package me.leedi.papyrus.utils;
 
 public class Papyrus {
-    long id;
     String contentId = null;
     String title = null;
     String content = null;
     String date = null;
     String description = null;
-    
-    public long getId() {
-        return id;
-    }
-    
-    public void setId(long id) {
-        this.id = id;
-    }
-    
+
     public String getContentId() {
         return contentId;
     }
