@@ -10,7 +10,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // 트위터 API 설정
         TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
+        Fabric.with(this, new Twitter(authConfig)); // Fabric!!
     }
 }

@@ -5,13 +5,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".App"
+        android:name="me.leedi.papyrus.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".activity.MainActivity"
+            android:name="me.leedi.papyrus.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,15 +19,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-                android:name=".activity.LoginActivity"/>
+        <activity android:name="me.leedi.papyrus.activity.LoginActivity" />
+        <activity android:name="me.leedi.papyrus.activity.ComposeActivity"/>
+        
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="503143412fd4566b14b5ae15270c9d2331f61088" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <activity android:name="com.facebook.LoginActivity"/>
+
+        <activity android:name="com.facebook.LoginActivity" />
     </application>
 
 </manifest>
