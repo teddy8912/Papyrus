@@ -12,6 +12,7 @@
     <!-- Commons -->
     <string name="drawer_open">메뉴 목록이 열렸습니다</string>
     <string name="drawer_close">메뉴 목록이 닫혔습니다</string>
+    <string name="compose">일기 작성</string>
 
     <!-- Alerts -->
     <string name="alert_timeout">Papyrus가 과열되었습니다.\n잠시 후 다시 시도하세요</string>
