@@ -12,17 +12,21 @@
         app:theme="@style/ToolbarTheme" />
 
     <EditText
+        android:id="@+id/input_title"    
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:textSize="25dp" />
+        android:textSize="24sp" 
+        android:inputType="text"/>
 
     <EditText
+        android:id="@+id/input_content"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="top"
         android:layout_margin="5dp"
         android:gravity="top"
-        android:textSize="25dp" />
+        android:textSize="24sp" 
+        android:inputType="text"/>
 
 </RelativeLayout>

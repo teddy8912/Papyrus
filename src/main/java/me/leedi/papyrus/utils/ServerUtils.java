@@ -122,12 +122,12 @@ public class ServerUtils {
      * Papyrus 목록 가져오는 메소드
      *
      * @param userId (소셜 네트워크 ID)
-     * @param startOffset (시작점!?)
+     * @param date (날짜)
      * @param context (Context)
      */
 
-    public static JSONArray papyrusGet(String userId, String startOffset, Context context) {
-        String res = doGet("/papyrus/" + userId + "?start=" + startOffset, null, context);
+    public static JSONArray papyrusGet(String userId, String date, Context context) {
+        String res = doGet("/papyrus/" + userId + "?date=" + date, null, context);
         if (!isTimeout(res, context)) {
             try {
                 JSONObject jsonObject = new JSONObject(res);
@@ -140,7 +140,17 @@ public class ServerUtils {
         return null;
     }
 
+    /**
+     * Papyrus 작성 메소드
+     *
+     * @param userId (소셜 네트워크 ID)
+     * @param startOffset (시작점!?)
+     * @param context (Context)
+     */
 
+    
+
+    
     /**
      * API 타임아웃 여부 체크 메소드
      * 
