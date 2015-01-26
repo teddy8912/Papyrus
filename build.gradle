@@ -37,6 +37,15 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0.0"
+        resConfig "ko"
+    }
+    signingConfigs {
+        release {
+            storeFile file(keystore)
+            storePassword keystore_pass
+            keyAlias key_alias
+            keyPassword key_pass
+        }
     }
     buildTypes {
         debug {
@@ -46,8 +55,10 @@ android {
         release {
             buildConfigField "String", "TWITTER_KEY", "\"${props.getProperty("twitterKey")}\""
             buildConfigField "String", "TWITTER_SECRET", "\"${props.getProperty("twitterSecret")}\""
-            minifyEnabled false
+            minifyEnabled true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
