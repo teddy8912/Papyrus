@@ -1,4 +1,4 @@
-#Papyrus  [![Build Status](https://travis-ci.org/nFriends/Papyrus.svg?branch=master)](https://travis-ci.org/nFriends/Papyrus)
+#Papyrus  [![Build Status](https://travis-ci.org/donginl/Papyrus.svg?branch=master)](https://travis-ci.org/donginl/Papyrus)
 
 Papyrus 는 매일매일 나만의 비밀 일기를 쓸 수 있는 애플리케이션 입니다!<br>
 Papyrus 는 소셜 네트워크 계정으로 간편하게 로그인 하여 사용할 수 있으며, 암호잠금 기능과 사진첨부 기능 등 일기를 좀 더 유용하게 쓸 수 있도록 제공합니다<br>
