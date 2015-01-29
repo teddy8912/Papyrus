@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.melnykov.fab.FloatingActionButton;
 import me.leedi.papyrus.R;
 import me.leedi.papyrus.activity.ComposeActivity;
+import me.leedi.papyrus.utils.ComplexUtils;
 import me.leedi.papyrus.utils.Papyrus;
 import me.leedi.papyrus.utils.PapyrusAdapter;
 import me.leedi.papyrus.utils.ServerUtils;
@@ -36,8 +37,7 @@ public class PapyrusFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // 레이아웃 초기화
         View view = inflater.inflate(R.layout.fragment_papyrus, container, false);
         mListView = (ListView) view.findViewById(R.id.list);
@@ -60,6 +60,17 @@ public class PapyrusFragment extends Fragment {
         
         // 뷰 반환
         return view;
+    }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (ComplexUtils.isNeedRefresh()) {
+            Date date = new Date();
+            DateFormat = new SimpleDateFormat("yyyy/M/dd", Locale.KOREAN);
+            params[1] = DateFormat.format(date);
+            new loadTask(mContext).execute(params);
+        }
     }
 
     @Override

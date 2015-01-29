@@ -144,12 +144,33 @@ public class ServerUtils {
      * Papyrus 작성 메소드
      *
      * @param userId (소셜 네트워크 ID)
-     * @param startOffset (시작점!?)
+     * @param title (당연히 제목)
+     * @param content (당연히 내용)
+     * @param date (날짜)
      * @param context (Context)
+     * @return contentId (콘텐츠 ID, 차기 SQLite 이용시 사용을 위함)                
      */
-
     
-
+    public static String papyrusNew(String userId, String title, String content, String date, Context context) {
+        ArrayList<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("userId", userId));
+        params.add(new BasicNameValuePair("title", title));
+        params.add(new BasicNameValuePair("content", content));
+        params.add(new BasicNameValuePair("date", date));
+        params.add(new BasicNameValuePair("attachId", "")); // TODO : 차후 첨부파일 기능 구현 시 수정바람 (현재는 DB 입력오류 방지용)
+        String userToken = context.getSharedPreferences("common", Context.MODE_PRIVATE).getString("userToken", null);
+        String res = doPost("/papyrus", params, userToken, context);
+        if (!isTimeout(res, context)) {
+            try {
+                JSONObject json = JSONParse(res);
+                return json.getString("contentId");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
     
     /**
      * API 타임아웃 여부 체크 메소드

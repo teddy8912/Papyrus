@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 public class ComplexUtils {
     static String statuscode;
+    static boolean NeedRefresh = false;
 
     /**
      * 애플리케이션 버전정보 가져오는 메소드
@@ -50,5 +51,13 @@ public class ComplexUtils {
     
     public static String getStatusCode() {
         return statuscode;
+    }
+    
+    public static boolean isNeedRefresh() {
+        return NeedRefresh;
+    }
+    
+    public static void setNeedRefresh(Boolean set) {
+        NeedRefresh = set;
     }
 }
