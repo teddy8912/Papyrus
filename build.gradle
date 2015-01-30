@@ -4,7 +4,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.14.4'
+        classpath 'com.android.tools.build:gradle:1.0.0'
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
@@ -41,12 +41,16 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "TWITTER_KEY", "\"${props.getProperty("twitterKey")}\""
-            buildConfigField "String", "TWITTER_SECRET", "\"${props.getProperty("twitterSecret")}\""
+            buildConfigField "String", "twitterKey", "\"${props.getProperty("twitterKey")}\""
+            buildConfigField "String", "twitterSecret", "\"${props.getProperty("twitterSecret")}\""
+            buildConfigField "String", "Salt1", "\"${props.getProperty("Salt1")}\""
+            buildConfigField "String", "Salt2", "\"${props.getProperty("Salt2")}\""
         }
         release {
-            buildConfigField "String", "TWITTER_KEY", "\"${props.getProperty("twitterKey")}\""
-            buildConfigField "String", "TWITTER_SECRET", "\"${props.getProperty("twitterSecret")}\""
+            buildConfigField "String", "twitterKey", "\"${props.getProperty("twitterKey")}\""
+            buildConfigField "String", "twitterSecret", "\"${props.getProperty("twitterSecret")}\""
+            buildConfigField "String", "Salt1", "\"${props.getProperty("Salt1")}\""
+            buildConfigField "String", "Salt2", "\"${props.getProperty("Salt2")}\""
             minifyEnabled true
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

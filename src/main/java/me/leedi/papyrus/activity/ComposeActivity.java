@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import me.leedi.papyrus.R;
 import me.leedi.papyrus.utils.ComplexUtils;
+import me.leedi.papyrus.utils.SecurityUtils;
 import me.leedi.papyrus.utils.ServerUtils;
 
 import java.text.SimpleDateFormat;
@@ -51,8 +52,12 @@ public class ComposeActivity extends ActionBarActivity {
         switch(item.getItemId())
         {
             case R.id.action_save:
-                params[1] = title.getText().toString();
-                params[2] = content.getText().toString();
+                try {
+                    params[1] = SecurityUtils.AESEncode(title.getText().toString(), ComposeActivity.this);
+                    params[2] = SecurityUtils.AESEncode(content.getText().toString(), ComposeActivity.this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 new composeTask(ComposeActivity.this).execute(params);
                 break;
         }

@@ -50,6 +50,7 @@ public class ServerUtils {
                 String returnName = json.getString("userName");
                 context.getSharedPreferences("common", Context.MODE_PRIVATE)
                         .edit().putString("userToken", userToken).putString("userName", returnName).putString("userId", userId).putBoolean("isLogin", true).apply();
+                SecurityUtils.setKeyHash(context);
                 return true;
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -231,6 +232,7 @@ public class ServerUtils {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 res = EntityUtils.toString(entity, "UTF-8");
+                res = res.replace("\\\\n", "");
                 res = res.replace("\\", "");
                 res = res.substring(1, res.length() -1);
             }
@@ -275,6 +277,7 @@ public class ServerUtils {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 res = EntityUtils.toString(entity, "UTF-8");
+                res = res.replace("\\\\n", "");
                 res = res.replace("\\", "");
                 res = res.substring(1, res.length() -1);
             }
@@ -316,6 +319,7 @@ public class ServerUtils {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 res = EntityUtils.toString(entity, "UTF-8");
+                res = res.replace("\\\\n", "");
                 res = res.replace("\\", "");
                 res = res.substring(1, res.length() -1);
             }

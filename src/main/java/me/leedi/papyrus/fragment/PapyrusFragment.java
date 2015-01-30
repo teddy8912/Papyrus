@@ -12,13 +12,17 @@ import android.widget.ListView;
 import com.melnykov.fab.FloatingActionButton;
 import me.leedi.papyrus.R;
 import me.leedi.papyrus.activity.ComposeActivity;
-import me.leedi.papyrus.utils.ComplexUtils;
-import me.leedi.papyrus.utils.Papyrus;
-import me.leedi.papyrus.utils.PapyrusAdapter;
-import me.leedi.papyrus.utils.ServerUtils;
+import me.leedi.papyrus.utils.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -116,24 +120,24 @@ public class PapyrusFragment extends Fragment {
             for (int i=0; i<json.length(); i++) { // JSON 배열 가공
                 Papyrus papyrus = new Papyrus();
                 try {
-                    papyrus.setTitle(json.getJSONObject(i).getString("title")); // 제목 설정
+                    papyrus.setTitle(SecurityUtils.AESDecode(json.getJSONObject(i).getString("title"), context)); // 제목 설정
                     // 내용 미리보기 설정
-                    String description = json.getJSONObject(i).getString("content");
+                    String description = SecurityUtils.AESDecode(json.getJSONObject(i).getString("content"), context);
                     int end = description.length();
                     if (end < 20) {
-                        description = json.getJSONObject(i).getString("content").substring(0, end);
+                        description = description.substring(0, end);
                     }
                     else {
-                        description = json.getJSONObject(i).getString("content").substring(0, 20);
+                        description = description.substring(0, 20);
                     }
                     // POSIX 시간 (UNIX 시간)으로 저장된 데이터를 변환
                     long unixTime = Long.parseLong(json.getJSONObject(i).getString("date"));
                     Date date = new Date(unixTime * 1000);
-                    DateFormat = new SimpleDateFormat("a h:m", Locale.KOREAN);
+                    DateFormat = new SimpleDateFormat("a h:mm", Locale.KOREAN);
                     papyrus.setDescription(description);
                     papyrus.setDate(DateFormat.format(date));
                     items.add(papyrus);
-                } catch (JSONException e) {
+                } catch (JSONException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | InvalidKeyException | UnsupportedEncodingException | InvalidAlgorithmParameterException e) {
                     e.printStackTrace();
                 }
             }

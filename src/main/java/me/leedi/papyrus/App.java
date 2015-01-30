@@ -11,7 +11,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         // 트위터 API 설정
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.twitterKey, BuildConfig.twitterSecret);
         Fabric.with(this, new Twitter(authConfig)); // Fabric!!
     }
 }
