@@ -35,7 +35,7 @@ public class PapyrusAdapter extends ArrayAdapter<Papyrus> {
         description = (TextView) view.findViewById(R.id.papyrus_item_description);
         date = (TextView) view.findViewById(R.id.papyrus_item_date);
         
-        Papyrus papyrus = getItem(position);
+        Papyrus papyrus = items.get(position);
         
         title.setText(papyrus.getTitle());
         description.setText(papyrus.getDescription());

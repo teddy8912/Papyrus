@@ -64,7 +64,7 @@ public class ComposeActivity extends ActionBarActivity {
         return true;
     }
 
-    public class composeTask extends AsyncTask<String, Void, Boolean> {
+    private class composeTask extends AsyncTask<String, Void, Boolean> {
         Context context;
 
         public composeTask(Context context) {

@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import com.melnykov.fab.FloatingActionButton;
 import me.leedi.papyrus.R;
 import me.leedi.papyrus.activity.ComposeActivity;
+import me.leedi.papyrus.activity.DetailActivity;
 import me.leedi.papyrus.utils.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +37,9 @@ public class PapyrusFragment extends Fragment {
     Context mContext; // Context 초기화
     SimpleDateFormat DateFormat; // DateFormat 초기화
     
+    List<Papyrus> items = new ArrayList<>();
+    PapyrusAdapter mAdapter;
+    
     public PapyrusFragment(Context context) {
         mContext = context;
         params[0] = mContext.getSharedPreferences("common", Context.MODE_PRIVATE).getString("userId", null); // 유저 ID 가져오기
@@ -45,6 +50,9 @@ public class PapyrusFragment extends Fragment {
         // 레이아웃 초기화
         View view = inflater.inflate(R.layout.fragment_papyrus, container, false);
         mListView = (ListView) view.findViewById(R.id.list);
+        mAdapter = new PapyrusAdapter(mContext, R.layout.papyrus_list_item, items); // 어댑터 설정
+        mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(onItemClickListener); // 아이템 선택 시의 설정
         setHasOptionsMenu(true); // 메뉴가 존재함을 보고합니다!
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
@@ -105,8 +113,19 @@ public class PapyrusFragment extends Fragment {
             new loadTask(mContext).execute(params);
         }
     };
+    
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            Papyrus papyrus = mAdapter.getItem(i);
+            String contentId = papyrus.getContentId();
+            Intent detail = new Intent(mContext, DetailActivity.class);
+            detail.putExtra("contentId", contentId);
+            startActivity(detail);
+        }
+    };
 
-    public class loadTask extends AsyncTask<String, Void, List<Papyrus>> {
+    private class loadTask extends AsyncTask<String, Void, Void> {
         Context context;
         
         public loadTask(Context context) {
@@ -114,12 +133,17 @@ public class PapyrusFragment extends Fragment {
         }
         
         @Override
-        protected List<Papyrus> doInBackground(String... params) {
+        protected void onPreExecute() {
+            items.clear();
+        }
+        
+        @Override
+        protected Void doInBackground(String... params) {
             JSONArray json = ServerUtils.papyrusGet(params[0], params[1] , context); // JSON 배열 가져오기
-            List<Papyrus> items = new ArrayList<>(); // 아이템 목록 생성
             for (int i=0; i<json.length(); i++) { // JSON 배열 가공
                 Papyrus papyrus = new Papyrus();
                 try {
+                    papyrus.setContentId(json.getJSONObject(i).getString("contentId")); // 컨텐츠 ID 설정
                     papyrus.setTitle(SecurityUtils.AESDecode(json.getJSONObject(i).getString("title"), context)); // 제목 설정
                     // 내용 미리보기 설정
                     papyrus.setDescription(SecurityUtils.AESDecode(json.getJSONObject(i).getString("content"), context));
@@ -133,12 +157,12 @@ public class PapyrusFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-            return items;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(List<Papyrus> items) {
-            mListView.setAdapter(new PapyrusAdapter(context, R.layout.papyrus_list_item, items));
+        protected void onPostExecute(Void voids) {
+            mAdapter.notifyDataSetChanged();
         }
     }
 }

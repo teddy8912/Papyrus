@@ -172,7 +172,29 @@ public class ServerUtils {
         }
         return null;
     }
-    
+
+    /**
+     * Papyrus 목록 가져오는 메소드
+     *
+     * @param userId (소셜 네트워크 ID)
+     * @param contentId (컨텐츠 ID)
+     * @param context (Context)
+     */
+
+    public static JSONObject papyrusDetail(String userId, String contentId, Context context) {
+        String res = doGet("/papyrus/" + userId + "/" + contentId, null, context);
+        if (!isTimeout(res, context)) {
+            try {
+                return JSONParse(res);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
+
+
     /**
      * API 타임아웃 여부 체크 메소드
      * 

@@ -3,7 +3,6 @@ package me.leedi.papyrus.utils;
 public class Papyrus {
     String contentId = null;
     String title = null;
-    String content = null;
     String date = null;
     String description = null;
 
@@ -21,14 +20,6 @@ public class Papyrus {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
     
     public String getDate() {
