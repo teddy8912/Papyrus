@@ -182,7 +182,7 @@ public class ServerUtils {
      */
 
     public static JSONObject papyrusDetail(String userId, String contentId, Context context) {
-        String res = doGet("/papyrus/" + userId + "/" + contentId, null, context);
+        String res = doGet("/papyrus/" + userId + "/diary/" + contentId, null, context);
         if (!isTimeout(res, context)) {
             try {
                 return JSONParse(res);
