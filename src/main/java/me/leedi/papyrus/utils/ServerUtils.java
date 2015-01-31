@@ -186,7 +186,9 @@ public class ServerUtils {
             StatusMsg = context.getString(R.string.alert_timeout);
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 
     /**
@@ -204,7 +206,9 @@ public class ServerUtils {
             }
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 
     /**

@@ -122,19 +122,11 @@ public class PapyrusFragment extends Fragment {
                 try {
                     papyrus.setTitle(SecurityUtils.AESDecode(json.getJSONObject(i).getString("title"), context)); // 제목 설정
                     // 내용 미리보기 설정
-                    String description = SecurityUtils.AESDecode(json.getJSONObject(i).getString("content"), context);
-                    int end = description.length();
-                    if (end < 20) {
-                        description = description.substring(0, end);
-                    }
-                    else {
-                        description = description.substring(0, 20);
-                    }
+                    papyrus.setDescription(SecurityUtils.AESDecode(json.getJSONObject(i).getString("content"), context));
                     // POSIX 시간 (UNIX 시간)으로 저장된 데이터를 변환
                     long unixTime = Long.parseLong(json.getJSONObject(i).getString("date"));
                     Date date = new Date(unixTime * 1000);
                     DateFormat = new SimpleDateFormat("a h:mm", Locale.KOREAN);
-                    papyrus.setDescription(description);
                     papyrus.setDate(DateFormat.format(date));
                     items.add(papyrus);
                 } catch (JSONException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | InvalidKeyException | UnsupportedEncodingException | InvalidAlgorithmParameterException e) {

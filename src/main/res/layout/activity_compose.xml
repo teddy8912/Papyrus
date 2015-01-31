@@ -29,7 +29,8 @@
         android:layout_margin="5dp"
         android:gravity="top"
         android:textSize="24sp" 
-        android:hint="@string/content"
-        android:inputType="text"/>
+        android:hint="@string/content" 
+        android:scrollbars="vertical"
+        android:inputType="textMultiLine"/>
 
 </LinearLayout>

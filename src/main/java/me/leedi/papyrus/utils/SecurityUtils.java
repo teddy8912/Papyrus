@@ -24,6 +24,8 @@ public class SecurityUtils {
     /**
      * AES256 암호화
      *
+     * Reference : http://www.imcore.net/encrypt-decrypt-aes256-c-objective-ios-iphone-ipad-php-java-android-perl-javascript/ 
+     *  
      * @param str (평문)
      * @param context (Context)
      * @return AES256로 암호화 된 암호문
@@ -42,6 +44,8 @@ public class SecurityUtils {
 
     /**
      * AES256 복호화
+     * 
+     * Reference : http://www.imcore.net/encrypt-decrypt-aes256-c-objective-ios-iphone-ipad-php-java-android-perl-javascript/
      *
      * @param str (암호문)
      * @param context (Context)
