@@ -28,3 +28,5 @@
 -keepclasseswithmembers class * {
     @retrofit.http.* <methods>;
 }
+-keep class com.facebook.** { *; }
+-keepattributes Signature
